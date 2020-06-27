@@ -3,108 +3,14 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <home-swiper :banners="banners"></home-swiper>
-    <home-recommend :recommends="recommends"></home-recommend>
-    <feature-view></feature-view>
-    <tab-control :titles="['流行','新款','精选']" class="tab-control" @tab-click="tabClick"></tab-control>
-    <goods-list :goods="showGoods"></goods-list>
 
-    <div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-      <div>~~~---------</div>
-    </div>
+    <scroll :data="watchDataObj" class="content">
+      <home-swiper :banners="banners" />
+      <home-recommend :recommends="recommends" />
+      <feature-view />
+      <tab-control :titles="['流行','新款','精选']" class="tab-control" @tab-click="tabClick" />
+      <goods-list :goods="showGoods" />
+    </scroll>
   </div>
 </template>
 
@@ -112,6 +18,7 @@
 import NavBar from 'components/navbar/NavBar'
 import TabControl from 'components/TabControl/TabControl'
 import GoodsList from 'components/Goods/GoodsList'
+import Scroll from 'components/Scroll/Scroll'
 
 import HomeSwiper from './components/HomeSwiper'
 import HomeRecommend from './components/HomeRecommend'
@@ -125,6 +32,7 @@ export default {
     NavBar,
     TabControl,
     GoodsList,
+    Scroll,
     HomeSwiper,
     HomeRecommend,
     FeatureView
@@ -144,6 +52,14 @@ export default {
   computed: {
     showGoods() {
       return this.goods[this.currentType].list
+    },
+    watchDataObj() {
+      const obj = {
+        banners: this.banners,
+        recommends: this.recommends,
+        goods: this.goods
+      }
+      return obj
     }
   },
   created() {
@@ -192,6 +108,8 @@ export default {
 
 <style scoped>
 #home {
+  position: relative;
+  height: 100vh;
   padding-top: 44px;
 }
 
@@ -209,5 +127,14 @@ export default {
   position: sticky;
   top: 44px;
   z-index: 9;
+}
+
+.content {
+  position: absolute;
+  top: 44px;
+  right: 0;
+  bottom: 49px;
+  left: 0;
+  overflow: hidden;
 }
 </style>
