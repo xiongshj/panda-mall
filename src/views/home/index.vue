@@ -8,8 +8,10 @@
       ref="scroll"
       :data="watchDataObj"
       :probe-type="3"
+      :pull-up-load="true"
       class="content"
       @scroll="contentScroll"
+      @pulling-up="loadMore"
     >
       <home-swiper :banners="banners" />
       <home-recommend :recommends="recommends" />
@@ -101,8 +103,10 @@ export default {
       this.$refs.scroll.scrollTo(0, 0)
     },
     contentScroll(position) {
-      console.log(position)
       this.isBackTopShow = -position.y > 1000
+    },
+    loadMore() {
+      this.getHomeGoods(this.currentType)
     },
 
     /**
@@ -119,6 +123,8 @@ export default {
       getHomeGoods(type, page).then(res => {
         this.goods[type].list.push(...res.data.list)
         this.goods[type].page += 1
+
+        this.$refs.scroll.finishPullUp()
       })
     }
   }
