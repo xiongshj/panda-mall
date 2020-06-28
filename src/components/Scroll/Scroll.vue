@@ -66,6 +66,9 @@ export default {
     refresh() {
       // 代理better-scroll的refresh方法
       this.scroll && this.scroll.refresh()
+    },
+    scrollTo(x, y, time = 300) {
+      this.scroll.scrollTo(x, y, time)
     }
   }
 }

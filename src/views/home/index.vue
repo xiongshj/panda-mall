@@ -4,13 +4,15 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <scroll :data="watchDataObj" class="content">
+    <scroll ref="scroll" :data="watchDataObj" class="content">
       <home-swiper :banners="banners" />
       <home-recommend :recommends="recommends" />
       <feature-view />
       <tab-control :titles="['流行','新款','精选']" class="tab-control" @tab-click="tabClick" />
       <goods-list :goods="showGoods" />
     </scroll>
+
+    <back-top @click.native="backTopClick" />
   </div>
 </template>
 
@@ -19,6 +21,7 @@ import NavBar from 'components/navbar/NavBar'
 import TabControl from 'components/TabControl/TabControl'
 import GoodsList from 'components/Goods/GoodsList'
 import Scroll from 'components/Scroll/Scroll'
+import BackTop from 'components/BackTop/BackTop'
 
 import HomeSwiper from './components/HomeSwiper'
 import HomeRecommend from './components/HomeRecommend'
@@ -33,6 +36,7 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
+    BackTop,
     HomeSwiper,
     HomeRecommend,
     FeatureView
@@ -84,6 +88,10 @@ export default {
         case 2:
           this.currentType = 'sell'
       }
+    },
+    backTopClick() {
+      // 调用 scroll 组件的 scrollTo 方法
+      this.$refs.scroll.scrollTo(0, 0)
     },
 
     /**
