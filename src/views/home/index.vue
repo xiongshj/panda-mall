@@ -4,7 +4,13 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <scroll ref="scroll" :data="watchDataObj" class="content">
+    <scroll
+      ref="scroll"
+      :data="watchDataObj"
+      :probe-type="3"
+      class="content"
+      @scroll="contentScroll"
+    >
       <home-swiper :banners="banners" />
       <home-recommend :recommends="recommends" />
       <feature-view />
@@ -12,7 +18,7 @@
       <goods-list :goods="showGoods" />
     </scroll>
 
-    <back-top @click.native="backTopClick" />
+    <back-top v-show="isBackTopShow" @click.native="backTopClick" />
   </div>
 </template>
 
@@ -44,6 +50,7 @@ export default {
   data() {
     return {
       currentType: 'pop',
+      isBackTopShow: false,
       banners: [],
       recommends: [],
       goods: {
@@ -92,6 +99,10 @@ export default {
     backTopClick() {
       // 调用 scroll 组件的 scrollTo 方法
       this.$refs.scroll.scrollTo(0, 0)
+    },
+    contentScroll(position) {
+      console.log(position)
+      this.isBackTopShow = -position.y > 1000
     },
 
     /**
@@ -145,4 +156,10 @@ export default {
   left: 0;
   overflow: hidden;
 }
+
+/* .content {
+  overflow: hidden;
+  height:calc(100%-93px);
+  margin-top:44px;
+} */
 </style>
