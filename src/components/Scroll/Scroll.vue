@@ -32,11 +32,11 @@ export default {
     probeType: {
       type: Number,
       default: 0
-    },
-    pullUpLoad: {
-      type: Boolean,
-      default: false
     }
+    // pullUpLoad: {
+    //   type: Boolean,
+    //   default: false
+    // }
   },
   data() {
     return {
@@ -67,10 +67,12 @@ export default {
       this.$emit('scroll', position)
     })
 
-    // 3.监听上拉事件
-    this.scroll.on('pullingUp', () => {
-      this.$emit('pulling-up')
-    })
+    this.scroll.refresh()
+
+    // // 3.监听上拉事件
+    // this.scroll.on('pullingUp', () => {
+    //   this.$emit('pulling-up')
+    // })
   },
   methods: {
     refresh() {
