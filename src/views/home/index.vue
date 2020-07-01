@@ -83,8 +83,10 @@ export default {
     this.getHomeGoods('pop')
     this.getHomeGoods('new')
     this.getHomeGoods('sell')
-
+  },
+  mounted() {
     // 监听GoodsListItem中图片加载完成
+    // 在mounted阶段获取refs
     this.$bus.$on('item-image-load', () => {
       this.$refs.scroll.refresh()
     })
@@ -106,7 +108,7 @@ export default {
       }
     },
     backTopClick() {
-      // 调用 scroll 组件的 scrollTo 方法
+      // 调用scroll组件的scrollTo方法
       this.$refs.scroll.scrollTo(0, 0)
     },
     contentScroll(position) {
