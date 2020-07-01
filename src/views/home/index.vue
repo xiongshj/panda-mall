@@ -87,14 +87,29 @@ export default {
   mounted() {
     // 监听GoodsListItem中图片加载完成
     // 在mounted阶段获取refs
+    const refresh = this.debounce(this.$refs.scroll.refresh, 50)
     this.$bus.$on('item-image-load', () => {
-      this.$refs.scroll.refresh()
+      refresh()
     })
   },
   methods: {
     /**
      * 事件监听相关的方法
      */
+    // 防抖函数
+    debounce(func, delay) {
+      let timer = null
+
+      return function(...args) {
+        if (timer) {
+          clearTimeout(timer)
+        }
+
+        timer = setTimeout(() => {
+          func.apply(this, args)
+        }, delay)
+      }
+    },
     tabClick(index) {
       switch (index) {
         case 0:
