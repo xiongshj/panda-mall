@@ -32,11 +32,11 @@ export default {
     probeType: {
       type: Number,
       default: 0
+    },
+    pullUpLoad: {
+      type: Boolean,
+      default: false
     }
-    // pullUpLoad: {
-    //   type: Boolean,
-    //   default: false
-    // }
   },
   data() {
     return {
@@ -63,16 +63,18 @@ export default {
     })
 
     // 2.监听滚动的位置
-    this.scroll.on('scroll', position => {
-      this.$emit('scroll', position)
-    })
+    if (this.probeType === 2 || this.probeType === 3) {
+      this.scroll.on('scroll', position => {
+        this.$emit('scroll', position)
+      })
+    }
 
-    this.scroll.refresh()
-
-    // // 3.监听上拉事件
-    // this.scroll.on('pullingUp', () => {
-    //   this.$emit('pulling-up')
-    // })
+    // 3.监听上拉事件
+    if (this.pullUpLoad) {
+      this.scroll.on('pullingUp', () => {
+        this.$emit('pulling-up')
+      })
+    }
   },
   methods: {
     refresh() {

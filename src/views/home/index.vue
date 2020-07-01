@@ -11,8 +11,8 @@
       :pull-up-load="true"
       class="content"
       @scroll="contentScroll"
+      @pulling-up="loadMore"
     >
-      <!-- @pulling-up="loadMore" -->
       <home-swiper :banners="banners" />
       <home-recommend :recommends="recommends" />
       <feature-view />
@@ -117,9 +117,9 @@ export default {
     contentScroll(position) {
       this.isBackTopShow = -position.y > 1000
     },
-    // loadMore() {
-    //   this.getHomeGoods(this.currentType)
-    // },
+    loadMore() {
+      this.getHomeGoods(this.currentType)
+    },
 
     /**
      * 网络请求相关的方法
@@ -136,7 +136,8 @@ export default {
         this.goods[type].list.push(...res.data.list)
         this.goods[type].page += 1
 
-        // this.$refs.scroll.finishPullUp()
+        // 完成上拉加载更多后调用
+        this.$refs.scroll.finishPullUp()
       })
     }
   }
