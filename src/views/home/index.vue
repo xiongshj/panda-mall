@@ -60,6 +60,7 @@ export default {
   data() {
     return {
       tabOffsetTop: 0,
+      saveY: 0,
       currentType: 'pop',
       isBackTopShow: false,
       isTabFixed: false,
@@ -101,6 +102,13 @@ export default {
     this.$bus.$on('item-image-load', () => {
       refresh()
     })
+  },
+  activated() {
+    this.$refs.scroll.scrollTo(0, this.saveY, 0)
+    this.$refs.scroll.refresh()
+  },
+  deactivated() {
+    this.saveY = this.$refs.scroll.getScrollY()
   },
   methods: {
     /**
