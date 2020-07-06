@@ -39,18 +39,18 @@
 <script>
 export default {
   name: 'DetailShopInfo',
+  filters: {
+    sellCountFilter(value) {
+      if (value < 10000) return value
+      return (value / 10000).toFixed(1) + '万'
+    }
+  },
   props: {
     shop: {
       type: Object,
       default() {
         return {}
       }
-    }
-  },
-  filters: {
-    sellCountFilter(value) {
-      if (value < 10000) return value
-      return (value / 10000).toFixed(1) + '万'
     }
   }
 }
