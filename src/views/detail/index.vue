@@ -1,8 +1,8 @@
 <template>
   <div id="detail">
     <detail-nav-bar class="detail-nav" />
-    <scroll class="content">
-      <detail-swiper :top-images="topImages" />
+    <scroll ref="scroll" class="content">
+      <detail-swiper :top-images="topImages" @image-load="imageLoad" />
       <detail-base-info :goods="goods" />
       <detail-shop-info :shop="shop" />
     </scroll>
@@ -16,6 +16,8 @@ import DetailNavBar from './components/DetailNavBar'
 import DetailSwiper from './components/DetailSwiper'
 import DetailBaseInfo from './components/DetailBaseInfo'
 import DetailShopInfo from './components/DetailShopInfo'
+
+import { debounce } from '@/utils'
 
 import { getDetail, Goods, Shop } from '@/api/detail'
 
@@ -58,6 +60,10 @@ export default {
         // 创建店铺信息的对象
         this.shop = new Shop(data.shopInfo)
       })
+    },
+    imageLoad() {
+      const refresh = debounce(this.$refs.scroll.refresh, 50)
+      refresh()
     }
   }
 }
