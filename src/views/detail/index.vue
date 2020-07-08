@@ -6,6 +6,7 @@
       <detail-base-info :goods="goods" />
       <detail-shop-info :shop="shop" />
       <detail-goods-info :detail-info="detailInfo" @image-load="imageLoad2" />
+      <detail-param-info :param-info="paramInfo" />
     </scroll>
   </div>
 </template>
@@ -18,20 +19,22 @@ import DetailSwiper from './components/DetailSwiper'
 import DetailBaseInfo from './components/DetailBaseInfo'
 import DetailShopInfo from './components/DetailShopInfo'
 import DetailGoodsInfo from './components/DetailGoodsInfo'
+import DetailParamInfo from './components/DetailParamInfo'
 
 import { debounce } from '@/utils'
 
-import { getDetail, Goods, Shop } from '@/api/detail'
+import { getDetail, Goods, Shop, GoodsParam } from '@/api/detail'
 
 export default {
   name: 'Detail',
   components: {
+    Scroll,
     DetailNavBar,
     DetailSwiper,
     DetailBaseInfo,
     DetailShopInfo,
     DetailGoodsInfo,
-    Scroll
+    DetailParamInfo
   },
   data() {
     return {
@@ -39,7 +42,9 @@ export default {
       topImages: [],
       goods: {},
       shop: {},
-      detailInfo: {}
+      detailInfo: {},
+      DetailParamInfo: {},
+      paramInfo: {}
     }
   },
   created() {
@@ -66,6 +71,12 @@ export default {
 
         // 保存商品的详情数据
         this.detailInfo = data.detailInfo
+
+        // 获取参数信息
+        this.paramInfo = new GoodsParam(
+          data.itemParams.info,
+          data.itemParams.rule
+        )
       })
     },
     imageLoad() {
