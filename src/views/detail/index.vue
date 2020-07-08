@@ -5,6 +5,7 @@
       <detail-swiper :top-images="topImages" @image-load="imageLoad" />
       <detail-base-info :goods="goods" />
       <detail-shop-info :shop="shop" />
+      <detail-goods-info :detail-info="detailInfo" @image-load="imageLoad2" />
     </scroll>
   </div>
 </template>
@@ -16,6 +17,7 @@ import DetailNavBar from './components/DetailNavBar'
 import DetailSwiper from './components/DetailSwiper'
 import DetailBaseInfo from './components/DetailBaseInfo'
 import DetailShopInfo from './components/DetailShopInfo'
+import DetailGoodsInfo from './components/DetailGoodsInfo'
 
 import { debounce } from '@/utils'
 
@@ -28,6 +30,7 @@ export default {
     DetailSwiper,
     DetailBaseInfo,
     DetailShopInfo,
+    DetailGoodsInfo,
     Scroll
   },
   data() {
@@ -35,7 +38,8 @@ export default {
       id: null,
       topImages: [],
       goods: {},
-      shop: {}
+      shop: {},
+      detailInfo: {}
     }
   },
   created() {
@@ -59,11 +63,17 @@ export default {
 
         // 创建店铺信息的对象
         this.shop = new Shop(data.shopInfo)
+
+        // 保存商品的详情数据
+        this.detailInfo = data.detailInfo
       })
     },
     imageLoad() {
       const refresh = debounce(this.$refs.scroll.refresh, 50)
       refresh()
+    },
+    imageLoad2() {
+      this.$refs.scroll.refresh()
     }
   }
 }
