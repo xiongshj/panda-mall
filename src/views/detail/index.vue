@@ -8,12 +8,14 @@
       <detail-goods-info :detail-info="detailInfo" @image-load="imageLoad2" />
       <detail-param-info :param-info="paramInfo" />
       <detail-comment-info :comment-info="commentInfo" />
+      <goods-list :goods="recommends" />
     </scroll>
   </div>
 </template>
 
 <script>
 import Scroll from 'components/Scroll/Scroll'
+import GoodsList from 'components/Goods/GoodsList'
 
 import DetailNavBar from './components/DetailNavBar'
 import DetailSwiper from './components/DetailSwiper'
@@ -25,12 +27,13 @@ import DetailCommentInfo from './components/DetailCommentInfo'
 
 import { debounce } from '@/utils'
 
-import { getDetail, Goods, Shop, GoodsParam } from '@/api/detail'
+import { getDetail, getRecommend, Goods, Shop, GoodsParam } from '@/api/detail'
 
 export default {
   name: 'Detail',
   components: {
     Scroll,
+    GoodsList,
     DetailNavBar,
     DetailSwiper,
     DetailBaseInfo,
@@ -48,17 +51,18 @@ export default {
       detailInfo: {},
       DetailParamInfo: {},
       paramInfo: {},
-      commentInfo: {}
+      commentInfo: {},
+      recommends: []
     }
   },
   created() {
     this.id = this.$route.params.id
-    this.getDetailData()
+    this.getDetailData() // 获取详情数据
+    this.getRecommendData() // 获取推荐数据
   },
   methods: {
     getDetailData() {
       getDetail(this.id).then(res => {
-        console.log(res)
         const data = res.result
         // 获取顶部的图片轮播数据
         this.topImages = data.itemInfo.topImages
@@ -86,6 +90,11 @@ export default {
         if (data.rate.cRate !== 0) {
           this.commentInfo = data.rate.list[0]
         }
+      })
+    },
+    getRecommendData() {
+      getRecommend().then(res => {
+        this.recommends = res.data.list
       })
     },
     imageLoad() {
