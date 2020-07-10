@@ -26,6 +26,7 @@ import DetailParamInfo from './components/DetailParamInfo'
 import DetailCommentInfo from './components/DetailCommentInfo'
 
 import { debounce } from '@/utils'
+import { itemListenerMixin } from '@/mixins/item-listener-mixin'
 
 import { getDetail, getRecommend, Goods, Shop, GoodsParam } from '@/api/detail'
 
@@ -42,6 +43,7 @@ export default {
     DetailParamInfo,
     DetailCommentInfo
   },
+  mixins: [itemListenerMixin],
   data() {
     return {
       id: null,
@@ -59,6 +61,9 @@ export default {
     this.id = this.$route.params.id
     this.getDetailData() // 获取详情数据
     this.getRecommendData() // 获取推荐数据
+  },
+  destroyed() {
+    this.$bus.$off('item-image-load', this.itemImgListener)
   },
   methods: {
     getDetailData() {

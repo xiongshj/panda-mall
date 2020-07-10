@@ -41,7 +41,7 @@ import HomeSwiper from './components/HomeSwiper'
 import HomeRecommend from './components/HomeRecommend'
 import FeatureView from './components/FeatureView'
 
-import { debounce } from '@/utils'
+import { itemListenerMixin } from '@/mixins/item-listener-mixin'
 
 import { getHomeMultidata, getHomeGoods } from '@/api/home'
 
@@ -57,6 +57,7 @@ export default {
     HomeRecommend,
     FeatureView
   },
+  mixins: [itemListenerMixin],
   data() {
     return {
       tabOffsetTop: 0,
@@ -95,20 +96,16 @@ export default {
     this.getHomeGoods('new')
     this.getHomeGoods('sell')
   },
-  mounted() {
-    // 监听GoodsListItem中图片加载完成
-    // 在mounted阶段获取refs
-    const refresh = debounce(this.$refs.scroll.refresh, 50)
-    this.$bus.$on('item-image-load', () => {
-      refresh()
-    })
-  },
   activated() {
     this.$refs.scroll.scrollTo(0, this.saveY, 0)
     this.$refs.scroll.refresh()
   },
   deactivated() {
+    // 保持Y值
     this.saveY = this.$refs.scroll.getScrollY()
+
+    // 取消全局事件的监听
+    this.$bus.$off('item-image-load', this.itemImgListener)
   },
   methods: {
     /**
