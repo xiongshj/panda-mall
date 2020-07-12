@@ -1,14 +1,14 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detail-nav" />
+    <detail-nav-bar class="detail-nav" @title-click="titleClick" />
     <scroll ref="scroll" class="content">
       <detail-swiper :top-images="topImages" @image-load="imageLoad" />
       <detail-base-info :goods="goods" />
       <detail-shop-info :shop="shop" />
       <detail-goods-info :detail-info="detailInfo" @image-load="imageLoad2" />
-      <detail-param-info :param-info="paramInfo" />
-      <detail-comment-info :comment-info="commentInfo" />
-      <goods-list :goods="recommends" />
+      <detail-param-info ref="params" :param-info="paramInfo" />
+      <detail-comment-info ref="comment" :comment-info="commentInfo" />
+      <goods-list ref="recommend" :goods="recommends" />
     </scroll>
   </div>
 </template>
@@ -48,13 +48,14 @@ export default {
     return {
       id: null,
       topImages: [],
+      recommends: [],
+      themeTopYs: [],
       goods: {},
       shop: {},
       detailInfo: {},
       DetailParamInfo: {},
       paramInfo: {},
-      commentInfo: {},
-      recommends: []
+      commentInfo: {}
     }
   },
   created() {
@@ -62,6 +63,7 @@ export default {
     this.getDetailData() // 获取详情数据
     this.getRecommendData() // 获取推荐数据
   },
+  mounted() {},
   destroyed() {
     this.$bus.$off('item-image-load', this.itemImgListener)
   },
@@ -105,9 +107,17 @@ export default {
     imageLoad() {
       const refresh = debounce(this.$refs.scroll.refresh, 50)
       refresh()
+      this.themeTopYs = []
+      this.themeTopYs.push(0 - 44)
+      this.themeTopYs.push(this.$refs.params.$el.offsetTop - 44)
+      this.themeTopYs.push(this.$refs.comment.$el.offsetTop - 44)
     },
     imageLoad2() {
       this.$refs.scroll.refresh()
+      this.themeTopYs.push(this.$refs.recommend.$el.offsetTop - 44)
+    },
+    titleClick(index) {
+      this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 1000)
     }
   }
 }
