@@ -35,13 +35,12 @@ import NavBar from 'components/navbar/NavBar'
 import TabControl from 'components/TabControl/TabControl'
 import GoodsList from 'components/Goods/GoodsList'
 import Scroll from 'components/Scroll/Scroll'
-import BackTop from 'components/BackTop/BackTop'
 
 import HomeSwiper from './components/HomeSwiper'
 import HomeRecommend from './components/HomeRecommend'
 import FeatureView from './components/FeatureView'
 
-import { itemListenerMixin } from '@/mixins/item-listener-mixin'
+import { itemListenerMixin, backTopMixin } from '@/mixins/item-listener-mixin'
 
 import { getHomeMultidata, getHomeGoods } from '@/api/home'
 
@@ -52,18 +51,16 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
-    BackTop,
     HomeSwiper,
     HomeRecommend,
     FeatureView
   },
-  mixins: [itemListenerMixin],
+  mixins: [itemListenerMixin, backTopMixin],
   data() {
     return {
       tabOffsetTop: 0,
       saveY: 0,
       currentType: 'pop',
-      isBackTopShow: false,
       isTabFixed: false,
       banners: [],
       recommends: [],
@@ -124,10 +121,7 @@ export default {
       }
       this.$refs.tabControl1.currentIndex = this.$refs.tabControl2.currentIndex = index
     },
-    backTopClick() {
-      // 调用scroll组件的scrollTo方法
-      this.$refs.scroll.scrollTo(0, 0)
-    },
+
     contentScroll(position) {
       // 判断BackTop是否显示
       this.isBackTopShow = -position.y > 1000
