@@ -115,6 +115,7 @@ export default {
     imageLoad2() {
       this.$refs.scroll.refresh()
       this.themeTopYs.push(this.$refs.recommend.$el.offsetTop - 44)
+      this.themeTopYs.push(Number.MAX_VALUE)
     },
     titleClick(index) {
       this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 1000)
@@ -125,13 +126,12 @@ export default {
 
       // positionY和主题中值进行对比
       const length = this.themeTopYs.length
-      for (let i = 0; i < this.themeTopYs.length; i++) {
+      for (let i = 0; i < length - 1; i++) {
         if (
           this.currentIndex !== i &&
-          ((i < length - 1 &&
+          i < length - 1 &&
             positionY >= this.themeTopYs[i] &&
-            positionY < this.themeTopYs[i + 1]) ||
-            (i === length - 1 && positionY >= this.themeTopYs[i]))
+            positionY < this.themeTopYs[i + 1]
         ) {
           this.currentIndex = i
           this.$refs.nav.currentIndex = this.currentIndex
