@@ -10,6 +10,7 @@
       <detail-comment-info ref="comment" :comment-info="commentInfo" />
       <goods-list ref="recommend" :goods="recommends" />
     </scroll>
+    <detail-bottom-bar />
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import DetailShopInfo from './components/DetailShopInfo'
 import DetailGoodsInfo from './components/DetailGoodsInfo'
 import DetailParamInfo from './components/DetailParamInfo'
 import DetailCommentInfo from './components/DetailCommentInfo'
+import DetailBottomBar from './components/DetailBottomBar'
 
 import { debounce } from '@/utils'
 import { itemListenerMixin } from '@/mixins/item-listener-mixin'
@@ -41,7 +43,8 @@ export default {
     DetailShopInfo,
     DetailGoodsInfo,
     DetailParamInfo,
-    DetailCommentInfo
+    DetailCommentInfo,
+    DetailBottomBar
   },
   mixins: [itemListenerMixin],
   data() {
@@ -130,8 +133,8 @@ export default {
         if (
           this.currentIndex !== i &&
           i < length - 1 &&
-            positionY >= this.themeTopYs[i] &&
-            positionY < this.themeTopYs[i + 1]
+          positionY >= this.themeTopYs[i] &&
+          positionY < this.themeTopYs[i + 1]
         ) {
           this.currentIndex = i
           this.$refs.nav.currentIndex = this.currentIndex
@@ -157,6 +160,6 @@ export default {
 }
 
 .content {
-  height: calc(100% - 44px);
+  height: calc(100% - 44px - 58px);
 }
 </style>
