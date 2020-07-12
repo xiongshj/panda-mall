@@ -1,7 +1,7 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detail-nav" @title-click="titleClick" />
-    <scroll ref="scroll" class="content">
+    <detail-nav-bar ref="nav" class="detail-nav" @title-click="titleClick" />
+    <scroll ref="scroll" :probe-type="3" class="content" @scroll="contentScroll">
       <detail-swiper :top-images="topImages" @image-load="imageLoad" />
       <detail-base-info :goods="goods" />
       <detail-shop-info :shop="shop" />
@@ -47,6 +47,7 @@ export default {
   data() {
     return {
       id: null,
+      currentIndex: 0,
       topImages: [],
       recommends: [],
       themeTopYs: [],
@@ -63,7 +64,6 @@ export default {
     this.getDetailData() // 获取详情数据
     this.getRecommendData() // 获取推荐数据
   },
-  mounted() {},
   destroyed() {
     this.$bus.$off('item-image-load', this.itemImgListener)
   },
@@ -118,6 +118,25 @@ export default {
     },
     titleClick(index) {
       this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 1000)
+    },
+    contentScroll(position) {
+      // 获取y值
+      const positionY = -position.y
+
+      // positionY和主题中值进行对比
+      const length = this.themeTopYs.length
+      for (let i = 0; i < this.themeTopYs.length; i++) {
+        if (
+          this.currentIndex !== i &&
+          ((i < length - 1 &&
+            positionY >= this.themeTopYs[i] &&
+            positionY < this.themeTopYs[i + 1]) ||
+            (i === length - 1 && positionY >= this.themeTopYs[i]))
+        ) {
+          this.currentIndex = i
+          this.$refs.nav.currentIndex = this.currentIndex
+        }
+      }
     }
   }
 }
