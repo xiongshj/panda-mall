@@ -1,5 +1,6 @@
 const getters = {
-  cartLength: state => state.cartList.length
+  cartLength: state => state.cartList.length,
+  cartList: state => state.cartList
 }
 
 export default getters
