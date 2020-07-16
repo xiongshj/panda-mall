@@ -1,7 +1,7 @@
 <template>
   <div class="cart-list">
     <scroll ref="scroll" class="content">
-      <cart-list-item v-for="item in cartList" :key="item.id" :product="item" />
+      <cart-list-item v-for="item in cartList" :key="item.id" :item-info="item" />
     </scroll>
   </div>
 </template>
@@ -20,11 +20,16 @@ export default {
   computed: {
     ...mapGetters(['cartList'])
   },
-  watch: {
-    cartList(val) {
-      this.$refs.scroll.refresh()
-    }
+  activated() {
+    // 回到购物车页面调用方法使得滚动正常
+    // 也可以监听cartList的变化来实现
+    this.$refs.scroll.refresh()
   }
+  // watch: {
+  //   cartList(val) {
+  //     this.$refs.scroll.refresh()
+  //   }
+  // }
 }
 </script>
 
