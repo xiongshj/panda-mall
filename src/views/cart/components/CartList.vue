@@ -35,7 +35,7 @@ export default {
 
 <style lang="less" scoped>
 .cart-list {
-  height: calc(100% - 44px - 49px);
+  height: calc(100% - 44px - 49px - 40px);
 }
 
 .content {
