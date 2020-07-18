@@ -12,12 +12,14 @@
     </scroll>
     <back-top v-show="isBackTopShow" @click.native="backTopClick" />
     <detail-bottom-bar @add-to-cart="addToCart" />
+    <toast :message="message" :show="show" />
   </div>
 </template>
 
 <script>
 import Scroll from 'components/Scroll/Scroll'
 import GoodsList from 'components/Goods/GoodsList'
+import Toast from 'components/Toast'
 
 import DetailNavBar from './components/DetailNavBar'
 import DetailSwiper from './components/DetailSwiper'
@@ -39,6 +41,7 @@ export default {
   components: {
     Scroll,
     GoodsList,
+    Toast,
     DetailNavBar,
     DetailSwiper,
     DetailBaseInfo,
@@ -52,7 +55,9 @@ export default {
   data() {
     return {
       id: null,
+      message: '',
       currentIndex: 0,
+      show: false,
       topImages: [],
       recommends: [],
       themeTopYs: [],
@@ -161,7 +166,13 @@ export default {
       //   console.log(res)
       // })
       this.addCart(product).then(res => {
-        console.log(res)
+        this.show = true
+        this.message = res
+
+        setTimeout(() => {
+          this.show = false
+          this.message = ''
+        }, 1500)
       })
     }
   }
