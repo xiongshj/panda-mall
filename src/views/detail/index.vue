@@ -30,6 +30,7 @@ import DetailBottomBar from './components/DetailBottomBar'
 
 import { debounce } from '@/utils'
 import { itemListenerMixin, backTopMixin } from '@/mixins/item-listener-mixin'
+import { mapActions } from 'vuex'
 
 import { getDetail, getRecommend, Goods, Shop, GoodsParam } from '@/api/detail'
 
@@ -72,6 +73,7 @@ export default {
     this.$bus.$off('item-image-load', this.itemImgListener)
   },
   methods: {
+    ...mapActions(['addCart']),
     getDetailData() {
       getDetail(this.id).then(res => {
         const data = res.result
@@ -155,7 +157,12 @@ export default {
       product.id = this.id
 
       // 将商品添加到购物车里
-      this.$store.dispatch('addCart', product)
+      // this.$store.dispatch('addCart', product).then(res => {
+      //   console.log(res)
+      // })
+      this.addCart(product).then(res => {
+        console.log(res)
+      })
     }
   }
 }
